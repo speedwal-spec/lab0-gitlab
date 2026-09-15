@@ -2,6 +2,6 @@
 
 int main()
 {
-    printf("Every commit tells a story.\n");
+    printf("Feature branch: experiment safely before release.\n");
     return 0;
 }
