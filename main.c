@@ -2,6 +2,6 @@
 
 int main()
 {
-    printf("Main branch: keep the released version stable.\n");
+    printf("Feature work is merged into the stable main branch.\n");
     return 0;
 }
