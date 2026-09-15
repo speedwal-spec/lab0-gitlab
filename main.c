@@ -2,6 +2,6 @@
 
 int main()
 {
-    printf("Every commit tells a story.\n");
+    printf("Main branch: keep the released version stable.\n");
     return 0;
 }
