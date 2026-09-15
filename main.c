@@ -2,6 +2,6 @@
 
 int main()
 {
-    // @TODO: print a sentence you want.
-    printf("Hello, world!\n");
+    printf("Every commit tells a story.\n");
+    return 0;
 }
