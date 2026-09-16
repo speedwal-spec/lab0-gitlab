@@ -1,3 +1,7 @@
+$ gcc --version
+gcc.exe (x86_64-posix-seh-rev1, Built by MinGW-Builds project) 13.2.0
+$ mingw32-make --version
+GNU Make 4.4.1
 $ mingw32-make clean
 rm -f main.o main
 $ mingw32-make

@@ -128,7 +128,7 @@ CONFLICT (content): Merge conflict in main.c
 Automatic merge failed; fix conflicts and then commit the result.
 ```
 
-此时 `main.c` 中出现了 `<<<<<<< HEAD`、`=======` 和 `>>>>>>> feature` 三个冲突标记。冲突截图如下：
+此时 `main.c` 中出现了 `<<<<<<< HEAD`、`=======` 和 `>>>>>>> feature` 三个冲突标记。下面的图片是依据本次真实终端记录生成的可读图；同一内容的原始文本紧随其后，便于搜索和复核：
 
 ![Git 合并冲突证据](assets/merge-conflict.png)
 
@@ -154,7 +154,7 @@ On branch main
 nothing to commit, working tree clean
 ```
 
-并且提交图同时保留了 `main` 和 `feature` 两条历史：
+并且提交图同时保留了 `main` 和 `feature` 两条历史。下面同样先给出依据真实终端记录生成的可读图：
 
 ![冲突解决后的提交历史](assets/merge-resolved.png)
 
@@ -215,8 +215,9 @@ Git 把代码变化组织成可追踪、可比较、可回退的历史，解决�
 - `git merge feature` 已产生真实内容冲突，冲突标记已清理并形成 merge commit。
 - `main` 分支最终工作树干净，提交图保留了合并前的两条分支历史。
 - 已将实验报告写入 `main` 分支。
-- 已用 MinGW GCC 13.2.0 实际完成清理、编译、运行和再次清理，程序正常输出最终合并内容，且没有产生编译警告。完整输出见[编译运行记录](assets/build-verification.txt)。
+- 已用 MinGW GCC 13.2.0 和 GNU Make 4.4.1 实际完成清理、编译、运行和再次清理，程序正常输出最终合并内容，且没有产生编译警告。工具版本和完整输出见[编译运行记录](assets/build-verification.txt)。
 - 已运行 `git diff --check template/main..HEAD -- . ':!assets/merge-conflict.txt'`、`git fsck --full` 和自动评分等价检查；文本格式、Git 对象和预期输出均符合要求。格式检查只排除了故意保存冲突标记的原始证据文件，实际源码中已经没有冲突标记。
+- GitHub Actions 自动评分已经通过，但该工作流只检查编译、运行以及输出是否不同于模板，不能代替对报告、分支结构和冲突处理过程的人工核验。
 
 课程模板远程保留为 `template`，个人仓库 [`speedwal-spec/lab0-gitlab`](https://github.com/speedwal-spec/lab0-gitlab) 使用 `origin`。两者分开后，可以在需要时获取模板更新，同时避免向课程模板误推送。
 
