@@ -1,0 +1,27 @@
+$ git switch main
+Already on 'main'
+$ git merge feature
+Auto-merging main.c
+CONFLICT (content): Merge conflict in main.c
+Automatic merge failed; fix conflicts and then commit the result.
+$ git status
+On branch main
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+        both modified:   main.c
+
+$ sed -n '1,20p' main.c
+#include <stdio.h>
+
+int main()
+{
+<<<<<<< HEAD
+    printf("Main branch: keep the released version stable.\n");
+=======
+    printf("Feature branch: experiment safely before release.\n");
+>>>>>>> feature
+    return 0;
+}

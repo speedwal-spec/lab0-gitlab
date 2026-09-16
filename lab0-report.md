@@ -1,8 +1,10 @@
 # Lab0：GitLab 实验报告
 
-> 课程：计算机系统基础（2026 年秋季学期）  
-> 实验：Lab0：GitLab  
-> 提交人：请在提交前补充姓名与学号
+> 课程：计算机系统基础（2026 年秋季学期）
+>
+> 实验：Lab0：GitLab
+>
+> GitHub：[`speedwal-spec/lab0-gitlab`](https://github.com/speedwal-spec/lab0-gitlab)
 
 ## 1. 实验目标
 
@@ -29,18 +31,24 @@
 
 `git branch` 默认列出本地分支，例如当前仓库会显示 `main` 和 `feature`；带有 `*` 的分支是当前分支。
 
-`git branch -a` 列出所有分支，包括本地分支和远程跟踪分支，例如 `template/main`。远程跟踪分支是本地对远程分支状态的记录，不等于当前工作区中的本地分支。查看远程分支前通常需要先执行 `git fetch` 或 `git pull` 获取最新信息。
+`git branch -a` 列出所有分支，包括本地分支和远程跟踪分支，例如 `remotes/template/main`。远程跟踪分支是本地对远程分支状态的记录，不等于当前工作区中的本地分支。查看远程分支前通常需要先执行 `git fetch` 或 `git pull` 获取最新信息。
+
+我在本仓库中实际观察到的区别是：前一个命令只显示 `main` 和 `feature`，后一个命令还会显示 `remotes/template/HEAD` 和 `remotes/template/main`。这让我意识到，本地分支、远程仓库和远程跟踪分支是三个相关但不同的概念。
+
+参考：[Git 官方文档：git-branch](https://git-scm.com/docs/git-branch)
 
 ## 3. Git 基本操作与实验步骤
 
 ### 3.1 初始化与完成 TODO
 
-我从课程模板仓库克隆了初始代码，并将模板远程名称改为 `template`，避免误把实验内容推回课程模板仓库：
+我从课程模板仓库克隆了初始代码。第一次查看远程仓库时只有默认名称 `origin`；为了提醒自己这是只用于获取课程模板的上游仓库，我将它改名为 `template`，避免误把实验内容推回课程模板仓库：
 
 ```bash
 git clone https://github.com/ICS-26Fall-FDU/GitLab.git lab0-gitlab
 cd lab0-gitlab
 git remote rename origin template
+git status
+git remote -v
 ```
 
 初始 `main.c` 中的 TODO 是输出一句话。我将其改为：
@@ -50,14 +58,15 @@ printf("Every commit tells a story.\n");
 return 0;
 ```
 
-然后提交：
+修改后，我先用 `git diff` 确认只改动了目标文件，再完成第一次提交：
 
 ```bash
 git add main.c
+git status
 git commit -m "feat(main): complete starter TODO"
 ```
 
-对应提交为 `40c32d1`。
+对应提交为 `cb6790f`。
 
 ### 3.2 创建 feature 分支并提交
 
@@ -65,7 +74,7 @@ git commit -m "feat(main): complete starter TODO"
 git switch -c feature
 ```
 
-在 `feature` 分支中，将输出行改为：
+切换后我先运行 `git branch`，确认 `*` 已经出现在 `feature` 前。在 `feature` 分支中，将输出行改为：
 
 ```c
 printf("Feature branch: experiment safely before release.\n");
@@ -78,14 +87,15 @@ git add main.c
 git commit -m "feat(main): add feature branch message"
 ```
 
-对应提交为 `09dbcfe`。
+对应提交为 `a3f4b4b`。
 
 ### 3.3 在 main 分支进行冲突性修改
 
-切回 `main`：
+切回 `main`，并再次用 `git status` 确认当前分支：
 
 ```bash
 git switch main
+git status
 ```
 
 在 `main` 分支中，将同一行改为另一种内容：
@@ -101,7 +111,7 @@ git add main.c
 git commit -m "feat(main): add stable branch message"
 ```
 
-对应提交为 `b9910a5`。由于两个分支都从同一个父提交出发，并且修改了 `main.c` 的同一行，接下来合并时会产生冲突。
+对应提交为 `2a4e09d`。由于两个分支都从同一个父提交出发，并且修改了 `main.c` 的同一行，接下来合并时会产生冲突。
 
 ### 3.4 合并并解决冲突
 
@@ -122,6 +132,8 @@ Automatic merge failed; fix conflicts and then commit the result.
 
 ![Git 合并冲突证据](assets/merge-conflict.png)
 
+为了让图片中的内容仍可搜索和核验，我同时保留了[合并冲突的原始终端文本](assets/merge-conflict.txt)。
+
 我根据两边的意图，保留“feature 工作最终进入稳定 main 分支”的合并语义，将冲突区域改为：
 
 ```c
@@ -135,7 +147,7 @@ git add main.c
 git commit -m "merge(main): resolve feature conflict"
 ```
 
-生成的合并提交为 `dbed353`。验证结果为工作树干净：
+生成的合并提交为 `1e472cb`。验证结果为工作树干净：
 
 ```text
 On branch main
@@ -145,6 +157,34 @@ nothing to commit, working tree clean
 并且提交图同时保留了 `main` 和 `feature` 两条历史：
 
 ![冲突解决后的提交历史](assets/merge-resolved.png)
+
+对应的可搜索版本见[冲突解决后的原始终端文本](assets/merge-resolved.txt)。从提交图中的分叉、两个父提交和重新汇合可以确认，这不是一次 fast-forward 合并。
+
+### 3.5 连接个人 GitHub 仓库
+
+我一开始先在本地完成了实验，之后才在 GitHub 上从课程模板创建个人仓库。这与文档推荐的“先创建个人仓库、再克隆”顺序不同，因此本地和 GitHub 当时各有一个内容相同、但提交编号不同的模板起点。
+
+我先用 `git bundle` 保存完整本地历史作为备份，再添加个人仓库远程：
+
+```bash
+git remote add origin https://github.com/speedwal-spec/lab0-gitlab.git
+git fetch origin
+```
+
+确认两个起点的文件树完全一致后，我将实验提交重放到个人仓库的初始提交之上，并保留合并结构：
+
+```bash
+git rebase --rebase-merges --onto origin/main f67e080 main
+```
+
+重放到合并提交时，同一处冲突再次出现。我使用原合并提交中已经确认的最终内容解决冲突，再运行 `git rebase --continue`。最后通过提交图确认 `feature`、`main` 和双父合并提交仍然完整，然后推送两个分支：
+
+```bash
+git push -u origin main
+git push -u origin feature
+```
+
+这次补救让我理解了：工作区文件相同，不代表两条 Git 历史自动相同；下次应先从模板创建个人仓库，再克隆个人仓库开始实验。`rebase` 会改写提交编号，日常协作中不能在未沟通的情况下对共享历史执行这类操作。
 
 ## 4. 拓展阅读
 
@@ -175,10 +215,10 @@ Git 把代码变化组织成可追踪、可比较、可回退的历史，解决�
 - `git merge feature` 已产生真实内容冲突，冲突标记已清理并形成 merge commit。
 - `main` 分支最终工作树干净，提交图保留了合并前的两条分支历史。
 - 已将实验报告写入 `main` 分支。
-- 已运行 `git diff --check`，没有发现补丁空格错误或其他差异格式问题。
-- 模板的 `Makefile` 使用 `gcc` 编译；当前 Windows 环境没有安装 `gcc`，因此本次无法执行网页中可选的 `make && ./main && make clean`。代码结构保持为标准 C，建议在课程服务器或 WSL 中按该命令完成最后的编译运行截图。
+- 已用 MinGW GCC 13.2.0 实际完成清理、编译、运行和再次清理，程序正常输出最终合并内容，且没有产生编译警告。完整输出见[编译运行记录](assets/build-verification.txt)。
+- 已运行 `git diff --check template/main..HEAD -- . ':!assets/merge-conflict.txt'`、`git fsck --full` 和自动评分等价检查；文本格式、Git 对象和预期输出均符合要求。格式检查只排除了故意保存冲突标记的原始证据文件，实际源码中已经没有冲突标记。
 
-当前本地远程配置中，`template` 仅用于记录课程模板来源；提交到个人 GitHub 仓库前，需要在自己的 GitHub 账号中用模板创建个人仓库，并将该仓库地址设置为新的 `origin`。
+课程模板远程保留为 `template`，个人仓库 [`speedwal-spec/lab0-gitlab`](https://github.com/speedwal-spec/lab0-gitlab) 使用 `origin`。两者分开后，可以在需要时获取模板更新，同时避免向课程模板误推送。
 
 ## 6. 建议
 

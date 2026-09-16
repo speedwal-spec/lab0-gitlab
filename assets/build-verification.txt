@@ -1,0 +1,9 @@
+$ mingw32-make clean
+rm -f main.o main
+$ mingw32-make
+gcc -Wall -O2 -c main.c -o main.o
+gcc -Wall -O2 -o main main.o
+$ .\main.exe
+Feature work is merged into the stable main branch.
+$ mingw32-make clean
+rm -f main.o main

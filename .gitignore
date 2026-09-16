@@ -1,0 +1,9 @@
+# Local build products
+/main
+/main.exe
+/*.o
+
+# GitHub Classroom temporary files
+/.grader-stdout
+/.grader-expected
+/grade.json
