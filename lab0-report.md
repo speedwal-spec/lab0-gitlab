@@ -128,9 +128,16 @@ CONFLICT (content): Merge conflict in main.c
 Automatic merge failed; fix conflicts and then commit the result.
 ```
 
-此时 `main.c` 中出现了 `<<<<<<< HEAD`、`=======` 和 `>>>>>>> feature` 三个冲突标记。下面的图片是依据本次真实终端记录生成的可读图；同一内容的原始文本紧随其后，便于搜索和复核：
+此时 `main.c` 中出现了 `<<<<<<< HEAD`、`=======` 和 `>>>>>>> feature` 三个冲突标记。为在不改动主工作区的情况下再次核验，我从 `main` 侧的冲突前提交建立临时 worktree，并合并 `feature` 侧提交：
 
-![Git 合并冲突证据](assets/merge-conflict.png)
+```powershell
+git worktree add E:\lab0-proof 2a4e09d
+git -C E:\lab0-proof merge a3f4b4b
+```
+
+合并再次产生相同的内容冲突。下面是复现现场的真实 Windows PowerShell 截图，包含 `git status` 输出和 `main.c` 中的冲突标记：
+
+![真实终端中的 Git 合并冲突](assets/merge-conflict.png)
 
 为了让图片中的内容仍可搜索和核验，我同时保留了[合并冲突的原始终端文本](assets/merge-conflict.txt)。
 
@@ -154,11 +161,11 @@ On branch main
 nothing to commit, working tree clean
 ```
 
-并且提交图同时保留了 `main` 和 `feature` 两条历史。下面同样先给出依据真实终端记录生成的可读图：
+并且提交图同时保留了 `main` 和 `feature` 两条历史。下面是主仓库中运行 `git status` 和 `git log --graph --oneline --decorate --all` 后得到的真实 Windows PowerShell 截图；其中可以直接看到双父合并提交以及 `main`、`feature` 两条历史重新汇合：
 
-![冲突解决后的提交历史](assets/merge-resolved.png)
+![真实终端中的冲突解决后提交历史](assets/merge-resolved.png)
 
-对应的可搜索版本见[冲突解决后的原始终端文本](assets/merge-resolved.txt)。从提交图中的分叉、两个父提交和重新汇合可以确认，这不是一次 fast-forward 合并。
+对应的可搜索版本见[冲突解决后的原始终端文本](assets/merge-resolved.txt)。从提交图中的分叉、两个父提交和重新汇合可以确认，这不是一次 fast-forward 合并。截图完成后，我执行 `git merge --abort` 并移除了临时 worktree；主仓库的代码和提交历史没有被复现操作改动。
 
 ### 3.5 连接个人 GitHub 仓库
 
