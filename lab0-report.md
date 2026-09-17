@@ -161,11 +161,11 @@ On branch main
 nothing to commit, working tree clean
 ```
 
-并且提交图同时保留了 `main` 和 `feature` 两条历史。下面是主仓库中运行 `git status` 和 `git log --graph --oneline --decorate --all` 后得到的真实 Windows PowerShell 截图；其中可以直接看到双父合并提交以及 `main`、`feature` 两条历史重新汇合：
+并且提交图同时保留了 `main` 和 `feature` 两条历史。下面是主仓库处于干净状态时运行 `git status` 和 `git log --graph --oneline --decorate --all` 后得到的真实 Windows PowerShell 截图；其中既能看到 `nothing to commit, working tree clean`，也能看到双父合并提交以及 `main`、`feature` 两条历史重新汇合：
 
 ![真实终端中的冲突解决后提交历史](assets/merge-resolved.png)
 
-对应的可搜索版本见[冲突解决后的原始终端文本](assets/merge-resolved.txt)。从提交图中的分叉、两个父提交和重新汇合可以确认，这不是一次 fast-forward 合并。截图完成后，我执行 `git merge --abort` 并移除了临时 worktree；主仓库的代码和提交历史没有被复现操作改动。
+对应的可搜索版本见[冲突解决后的原始终端文本](assets/merge-resolved.txt)。从提交图中的分叉、两个父提交和重新汇合可以确认，这不是一次 fast-forward 合并。前面的冲突复现截图完成后，我执行 `git merge --abort` 并移除了临时 worktree；主仓库的代码和提交历史没有被复现操作改动。
 
 ### 3.5 连接个人 GitHub 仓库
 
