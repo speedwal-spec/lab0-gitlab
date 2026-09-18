@@ -2,19 +2,7 @@
 
 Due: 30 Sep, 23:59:59
 
-## 提交状态
-
-- 实验代码、分支操作、冲突处理和实验报告均已完成。
-- `main` 与 `feature` 分支均已推送，合并提交保留了完整的双父历史。
-- MinGW GCC 13.2.0 本地编译运行通过，GitHub Classroom 自动评分通过。
-- 实验报告：[lab0-report.md](lab0-report.md)
-- 自动评分：[GitHub Actions](https://github.com/speedwal-spec/lab0-gitlab/actions)
-
-GitHub Classroom 的绿色结果只验证程序能够编译、运行且输出已不同于模板；报告内容、分支结构和冲突处理仍需结合仓库历史与实验报告人工核验。
-
-> 下面保留课程模板中的原始作业要求，便于逐项核对。
-
-## 作业要求（课程模板原文）
+## TODO
 
 1. 认真阅读[文档](https://ics-26fall-fdu.github.io/labs/lab0-git-lab/)，学习 Git 的基本用法，并在报告中回答文档中的问题。（15 分）
 
